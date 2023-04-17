@@ -192,7 +192,7 @@ f2 <- function(x) enexpr(x)
 f2(a + b + c)
 ```
 
-(It's called "en"-`expr()` by analogy to enrich. Enriching someone makes them richer; `enexpr()`ing a argument makes it an expression.)
+(It's called "en"-`expr()` by analogy to enrich. Enriching someone makes them richer; `enexpr()`ing an argument makes it an expression.)
 
 To capture all arguments in `...`, use `enexprs()`.
 
@@ -229,7 +229,7 @@ f("x")
 \index{expressions!capturing with base R}
 \index{quoting!quote@\texttt{quote()}}
 
-Each rlang function described above has an equivalent in base R. Their primary difference is that the base equivalents do not support unquoting (which we'll talk about very soon). This make them quoting functions, rather than quasiquoting functions.
+Each rlang function described above has an equivalent in base R. Their primary difference is that the base equivalents do not support unquoting (which we'll talk about very soon). This makes them quoting functions, rather than quasiquoting functions.
 
 The base equivalent of `expr()` is `quote()`:
   
@@ -786,7 +786,7 @@ One way to think about these problems is to draw explicit parallels to quasiquot
     dplyr::bind_rows(!!!dfs)
     ```
     
-    When used in this context, the behaviour of `!!!` is known as "spatting" in 
+    When used in this context, the behaviour of `!!!` is known as "splatting" in 
     Ruby, Go, PHP, and Julia. It is closely related to `*args` (star-args) and
     `**kwarg` (star-star-kwargs) in Python, which are sometimes called argument
     unpacking. 
@@ -1020,7 +1020,7 @@ lobstr::ast(!!z)
 
 ### Map-reduce to generate code
 
-Quasiquotation gives us powerful tools for generating code, particularly when combined with `purrr::map()` and `purr::reduce()`. For example, assume you have a linear model specified by the following coefficients:
+Quasiquotation gives us powerful tools for generating code, particularly when combined with `purrr::map()` and `purrr::reduce()`. For example, assume you have a linear model specified by the following coefficients:
 
 ```{r}
 intercept <- 10

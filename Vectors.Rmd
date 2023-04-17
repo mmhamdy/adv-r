@@ -179,7 +179,9 @@ This result is correct (if a little surprising) because there's no reason to bel
 is.na(x)
 ```
 
-NB: Technically there are four missing values, one for each of the atomic types: `NA` (logical), `NA_integer_` (integer), `NA_real_` (double), and `NA_character_` (character). This distinction is usually unimportant because `NA` will be automatically coerced to the correct type when needed.
+NB: Technically there are four missing values[^NA_complex], one for each of the atomic types: `NA` (logical), `NA_integer_` (integer), `NA_real_` (double), and `NA_character_` (character). This distinction is usually unimportant because `NA` will be automatically coerced to the correct type when needed.
+
+[^NA_complex]: Well, technically, five if we include `NA_complex_`, but we ignore this "rare" type, as mentioned above.
 
 ### Testing and coercion
 \index{coercion}
@@ -447,7 +449,7 @@ grade
 ```
 
 In base R[^tidyverse-factors] you tend to encounter factors very frequently because many base R functions (like `read.csv()` and `data.frame()`) automatically convert character vectors to factors. This is suboptimal because there's no way for those functions to know the set of all possible levels or their correct order: the levels are a property of theory or experimental design, not of the data. Instead, use the argument `stringsAsFactors = FALSE` to suppress this behaviour, and then manually convert character vectors to factors using your knowledge of the "theoretical" data. To learn about the historical context of this behaviour, I recommend [_stringsAsFactors: An unauthorized
-biography_](http://simplystatistics.org/2015/07/24/stringsasfactors-an-unauthorized-biography/) by Roger Peng, and [_stringsAsFactors = 
+biography_](https://simplystatistics.org/posts/2015-07-24-stringsasfactors-an-unauthorized-biography) by Roger Peng, and [_stringsAsFactors = 
 \<sigh\>_](http://notstatschat.tumblr.com/post/124987394001/stringsasfactors-sigh) by Thomas Lumley.
 
 [^tidyverse-factors]: The tidyverse never automatically coerces characters to factors, and provides the forcats [@forcats] package specifically for working with factors.
@@ -702,7 +704,7 @@ df <- data.frame(
 str(df)
 ```
 
-Beware of the default conversion of strings to factors. Use `stringsAsFactors = FALSE` to suppress this and keep character vectors as character vectors:
+If you are using a version of R before 4.0.0, beware of the default conversion of strings to factors. Use `stringsAsFactors = FALSE` to suppress this and keep character vectors as character vectors:
 
 ```{r}
 df1 <- data.frame(
@@ -850,7 +852,9 @@ In my opinion, data frames have two undesirable subsetting behaviours:
   column `x`, a data frame will instead select any variable that starts with
   `x`. If no variable starts with `x`, `df$x` will return `NULL`. This makes
   it easy to select the wrong variable or to select a variable that doesn't
-  exist.
+  exist[^warnPartialMatch].
+  
+[^warnPartialMatch]: We can make R warn about this behavior (called partial matching) by setting `options(warnPartialMatchDollar = TRUE)`.
 
 Tibbles tweak these behaviours so that a `[` always returns a tibble, and a `$` doesn't do partial matching and warns if it can't find a variable (this is what makes tibbles surly).
 

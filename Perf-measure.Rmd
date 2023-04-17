@@ -15,7 +15,7 @@ ns <- function(x) paste0(num(round(unclass(x) * 1e9, -1)), " ns")
 > at efficiency actually have a strong negative impact when debugging and 
 > maintenance are considered.
 >
-> --- Donald Knuth.
+> --- Donald Knuth
 
 Before you can make your code faster, you first need to figure out what's making it slow. This sounds easy, but it's not. Even experienced programmers have a hard time identifying bottlenecks in their code. So instead of relying on your intuition, you should __profile__ your code: measure the run-time of each line of code using realistic inputs.
 
@@ -188,7 +188,7 @@ There are some other limitations to profiling:
 
 <!-- The explanation of `torture = TRUE` was removed in https://github.com/hadley/adv-r/commit/ea63f1e48fb523c013fb3df1860b7e0c227e1512 -->
 
-1.  Profile the following function with `torture = TRUE`. What is 
+1.  Profile the following function with `torture = 10`. What is 
     surprising? Read the source code of `rm()` to figure out what's going on.
 
     ```{r}

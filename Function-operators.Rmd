@@ -14,9 +14,8 @@ chatty <- function(f) {
   force(f)
   
   function(x, ...) {
-    res <- f(x, ...)
-    cat("Processing ", x, "\n", sep = "")
-    res
+    message("Processing ", x)
+    f(x, ...)
   }
 }
 f <- function(x) x ^ 2
@@ -156,7 +155,7 @@ purrr comes with three other function operators in a similar vein:
 * `quietly()`: turns output, messages, and warning side-effects into
   `output`, `message`, and `warning` components of the output.
 
-* `auto_browser()`: automatically executes `browser()` inside the 
+* `auto_browse()`: automatically executes `browser()` inside the 
   function when there's an error.
 
 See their documentation for more details.
@@ -192,7 +191,7 @@ A relatively realistic use of memoisation is computing the Fibonacci series. The
 
 ```{r}
 fib <- function(n) {
-  if (n < 2) return(1)
+  if (n < 2) return(n)
   fib(n - 2) + fib(n - 1)
 }
 system.time(fib(23))
@@ -203,7 +202,7 @@ Memoising `fib()` makes the implementation much faster because each value is com
 
 ```{r}
 fib2 <- memoise::memoise(function(n) {
-  if (n < 2) return(1)
+  if (n < 2) return(n)
   fib2(n - 2) + fib2(n - 1)
 })
 system.time(fib2(23))
@@ -232,7 +231,7 @@ Think carefully before memoising a function. If the function is not __pure__, i.
 ## Case study: Creating your own function operators {#fo-case-study}
 \index{loops}
 
-`meomoise()` and `safely()` are very useful but also quite complex. In this case study you'll learn how to create your own simpler function operators. Imagine you have a named vector of URLs and you'd like to download each one to disk. That's pretty simple with `walk2()` and `file.download()`:
+`memoise()` and `safely()` are very useful but also quite complex. In this case study you'll learn how to create your own simpler function operators. Imagine you have a named vector of URLs and you'd like to download each one to disk. That's pretty simple with `walk2()` and `file.download()`:
 
 ```{r}
 urls <- c(
@@ -240,7 +239,7 @@ urls <- c(
   "r4ds" = "http://r4ds.had.co.nz/"
   # and many many more
 )
-path <- paste(tempdir(), names(urls), ".html")
+path <- paste0(tempdir(), names(urls), ".html")
 
 walk2(urls, path, download.file, quiet = TRUE)
 ```
@@ -332,7 +331,7 @@ The pipe works well here because I've carefully chosen the function names to yie
     `download.file %>% dot_every(10) %>% delay_by(0.1)` versus
     `download.file %>% delay_by(0.1) %>% dot_every(10)`.
     
-1.  Should you memoise `file.download()`? Why or why not?
+1.  Should you memoise `download.file()`? Why or why not?
 
 1.  Create a function operator that reports whenever a file is created or 
     deleted in the working directory, using `dir()` and `setdiff()`. What other 
